@@ -8,7 +8,7 @@ def clear():
 import time
 def crying_ape(prompt: str):
     frames = [
-        "(T_T)",    
+        "(T_T)",
         "(T^T)",
         "(T_T)",
         "(T~T)",
@@ -24,14 +24,12 @@ def crying_ape(prompt: str):
         time.sleep(0.15)
 
 if __name__ == "__main__":
-
-
-yhteys = mysql.connector.connect(
+    yhteys = mysql.connector.connect(
          host='127.0.0.1',
          port= 3306,
          database='flight_game',
          user='root',
-         password='salasana',
+         password='nooanooa',
          autocommit=True,
          )
 
