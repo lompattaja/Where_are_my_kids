@@ -50,5 +50,6 @@ Vain sinä voisit auttaa häntä tässä vaikeassa tilanteessa.
 Auttaisitko häntä pelaaja?""")
 
 input("Paina enter jaktaaksesi: ")
+crying_ape("")
 clear()
 
