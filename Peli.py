@@ -5,6 +5,26 @@ import random
 def clear():
     # Detect operating system and run the right command
     os.system('cls' if os.name == 'nt' else 'clear')
+import time
+def crying_ape(prompt: str):
+    frames = [
+        "(T_T)",      # eyes centered
+        "(T^T)",      # right eye twitch
+        "(T_T)",      # reset
+        "(T~T)",      # left eye twitch
+        "(T_T)  *",   # tear starts
+        "(T^T)  **",  # eyes move + more tears
+        "(T~T)  ***", # eyes move + heavy tears
+    ]
+
+    for i in range(30):  # repeat animation
+        clear()
+        print(frames[i % len(frames)])
+        print("\n" + prompt)
+        time.sleep(0.15)
+
+if __name__ == "__main__":
+
 
 yhteys = mysql.connector.connect(
          host='127.0.0.1',
