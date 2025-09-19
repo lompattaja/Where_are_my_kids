@@ -8,13 +8,13 @@ def clear():
 import time
 def crying_ape(prompt: str):
     frames = [
-        "(T_T)",      # eyes centered
-        "(T^T)",      # right eye twitch
-        "(T_T)",      # reset
-        "(T~T)",      # left eye twitch
-        "(T_T)  *",   # tear starts
-        "(T^T)  **",  # eyes move + more tears
-        "(T~T)  ***", # eyes move + heavy tears
+        "(T_T)",    
+        "(T^T)",
+        "(T_T)",
+        "(T~T)",
+        "(T_T)  *",
+        "(T^T)  **",
+        "(T~T)  ***",
     ]
 
     for i in range(30):  # repeat animation
