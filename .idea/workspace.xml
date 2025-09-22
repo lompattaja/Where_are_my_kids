@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bbc6540a-79b5-4e2e-a4ee-f104d1142905" name="Changes" comment="Ensimmäinen toimiva versio!!">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_9_2025_14_37_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_9_2025_14_37__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
-    </list>
+    <list default="true" id="bbc6540a-79b5-4e2e-a4ee-f104d1142905" name="Changes" comment="Toinen toimiva versio" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -172,7 +167,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758286016298</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Toinen toimiva versio">
+      <option name="closed" value="true" />
+      <created>1758537948584</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1758537948584</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,7 +188,8 @@
     <MESSAGE value="Ensimmäinen versio" />
     <MESSAGE value="Test on Claudella tehty" />
     <MESSAGE value="Ensimmäinen toimiva versio!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ensimmäinen toimiva versio!!" />
+    <MESSAGE value="Toinen toimiva versio" />
+    <option name="LAST_COMMIT_MESSAGE" value="Toinen toimiva versio" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -198,7 +202,7 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Where_are_my_kids$Test.coverage" NAME="Test Coverage Results" MODIFIED="1758537657447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Where_are_my_kids$Test.coverage" NAME="Test Coverage Results" MODIFIED="1758537991414" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Where_are_my_kids$Testit.coverage" NAME="Testit Coverage Results" MODIFIED="1758276422935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Where_are_my_kids$Peli.coverage" NAME="Peli Coverage Results" MODIFIED="1758281688152" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PythonProject8$Peli.coverage" NAME="Peli Coverage Results" MODIFIED="1757675829049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

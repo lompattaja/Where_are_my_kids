@@ -165,8 +165,8 @@ def save_found_child(yhteys, pelaaja_nimi, iso_country):
     """Tallenna löydetty lapsi tietokantaan"""
     kursori = yhteys.cursor()
     kursori.execute(
-        "INSERT INTO child_locations (screen_name, iso_country, found) VALUES (%s, %s, TRUE) ON DUPLICATE KEY UPDATE found = TRUE",
-        (pelaaja_nimi, iso_country)
+        "INSERT INTO child_locations (screen_name, child_number, iso_country, country_name, found) VALUES (%s, 1, %s, %s, TRUE) ON DUPLICATE KEY UPDATE found = TRUE",
+        (pelaaja_nimi, iso_country, iso_country)
     )
     kursori.close()
 
@@ -190,23 +190,6 @@ def is_child_found(yhteys, pelaaja_nimi, iso_country):
     tulos = kursori.fetchone()
     kursori.close()
     return tulos[0] if tulos else False
-    """Listaa kaikki Euroopan maat"""
-    maat = get_european_countries(yhteys)
-    if not maat:
-        print("Virhe: Euroopan maita ei voitu hakea!")
-        return
-
-    print("\n" + "=" * 50)
-    print("EUROOPAN MAAT")
-    print("=" * 50)
-
-    maat_jarjestetty = sorted(maat, key=lambda x: x[1])
-
-    for i, (iso_country, country_name) in enumerate(maat_jarjestetty, 1):
-        print(f"{i:2d}. {country_name} ({iso_country})")
-
-    print("=" * 50)
-    print(f"Yhteensä {len(maat)} Euroopan maata")
 
 
 def check_user_exists(yhteys, kayttaja_nimi):
