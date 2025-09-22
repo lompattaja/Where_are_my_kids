@@ -5,11 +5,12 @@ import time
 
 
 def clear():
-    # Detect operating system and run the right command
+    """Tyhjennä näyttö"""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def crying_ape(prompt: str):
+    """Itkevä apina animaatio"""
     frames = [
         "(T_T)",
         "(T^T)",
@@ -20,7 +21,7 @@ def crying_ape(prompt: str):
         "(T~T)  ***",
     ]
 
-    for i in range(30):  # repeat animation
+    for i in range(30):
         clear()
         print(frames[i % len(frames)])
         print("\n" + prompt)
@@ -28,7 +29,7 @@ def crying_ape(prompt: str):
 
 
 def connect_to_database():
-    """Yhdistä tietokantaan turvallisesti"""
+    """Yhdistä MariaDB tietokantaan"""
     try:
         yhteys = mysql.connector.connect(
             host='127.0.0.1',
@@ -59,73 +60,210 @@ Vain sinä voisit auttaa häntä tässä vaikeassa tilanteessa.
 Auttaisitko häntä pelaaja?""")
 
 
-# TIETOKANTAFUNKTIOT
-def check_user_exists(yhteys, kayttajanimi):
-    """Tarkista onko käyttäjä jo olemassa tietokannassa"""
+def get_european_countries(yhteys):
+    """Hae Euroopan maat airport-taulusta"""
+    kursori = yhteys.cursor()
+    kursori.execute(
+        "SELECT DISTINCT iso_country FROM airport WHERE iso_country IS NOT NULL AND LENGTH(iso_country) = 2 ORDER BY iso_country")
+    kaikki_maat = kursori.fetchall()
+
+    # Euroopan maiden ISO-koodit
+    euroopan_isot = {
+        'AD', 'AL', 'AT', 'BA', 'BE', 'BG', 'BY', 'CH', 'CZ', 'DE', 'DK', 'EE',
+        'ES', 'FI', 'FR', 'GB', 'GR', 'HR', 'HU', 'IE', 'IS', 'IT', 'LI', 'LT',
+        'LU', 'LV', 'MC', 'MD', 'ME', 'MK', 'MT', 'NL', 'NO', 'PL', 'PT', 'RO',
+        'RS', 'SE', 'SI', 'SK', 'SM', 'UA', 'XK', 'CY', 'TR'
+    }
+
+    # Suomenkieliset nimet
+    suomeksi = {
+        'AD': 'Andorra', 'AL': 'Albania', 'AT': 'Itävalta', 'BA': 'Bosnia ja Hertsegovina',
+        'BE': 'Belgia', 'BG': 'Bulgaria', 'BY': 'Valko-Venäjä', 'CH': 'Sveitsi',
+        'CZ': 'Tšekki', 'DE': 'Saksa', 'DK': 'Tanska', 'EE': 'Viro',
+        'ES': 'Espanja', 'FI': 'Suomi', 'FR': 'Ranska', 'GB': 'Iso-Britannia',
+        'GR': 'Kreikka', 'HR': 'Kroatia', 'HU': 'Unkari', 'IE': 'Irlanti',
+        'IS': 'Islanti', 'IT': 'Italia', 'LI': 'Liechtenstein', 'LT': 'Liettua',
+        'LU': 'Luxemburg', 'LV': 'Latvia', 'MC': 'Monaco', 'MD': 'Moldova',
+        'ME': 'Montenegro', 'MK': 'Pohjois-Makedonia', 'MT': 'Malta',
+        'NL': 'Alankomaat', 'NO': 'Norja', 'PL': 'Puola', 'PT': 'Portugali',
+        'RO': 'Romania', 'RS': 'Serbia', 'SE': 'Ruotsi', 'SI': 'Slovenia',
+        'SK': 'Slovakia', 'SM': 'San Marino', 'UA': 'Ukraina', 'XK': 'Kosovo',
+        'CY': 'Kypros', 'TR': 'Turkki'
+    }
+
+    maat = []
+    for (iso_code,) in kaikki_maat:
+        if iso_code in euroopan_isot:
+            maat.append((iso_code, suomeksi[iso_code]))
+
+    kursori.close()
+    return maat
+
+
+def find_country_by_name(yhteys, syotetty_maa):
+    """Etsi maa tietokannasta suomenkielisellä tai englanninkielisellä nimellä"""
+    maat = get_european_countries(yhteys)
+    syotetty_maa = syotetty_maa.lower().strip()
+
+    # Etsi ISO-koodilla
+    for iso_code, suomi_nimi in maat:
+        if syotetty_maa == iso_code.lower():
+            return iso_code, suomi_nimi
+
+    # Etsi suomenkielisellä nimellä
+    for iso_code, suomi_nimi in maat:
+        if syotetty_maa == suomi_nimi.lower():
+            return iso_code, suomi_nimi
+
+    # Etsi osittaisella suomenkielisellä nimellä
+    for iso_code, suomi_nimi in maat:
+        if syotetty_maa in suomi_nimi.lower() or suomi_nimi.lower().startswith(syotetty_maa):
+            return iso_code, suomi_nimi
+
+    # Englanninkieliset synonyymit suomenkielisille nimille
+    englanti_suomi_map = {
+        'germany': 'saksa', 'france': 'ranska', 'spain': 'espanja', 'italy': 'italia',
+        'sweden': 'ruotsi', 'norway': 'norja', 'denmark': 'tanska', 'finland': 'suomi',
+        'poland': 'puola', 'belgium': 'belgia', 'netherlands': 'alankomaat',
+        'austria': 'itävalta', 'switzerland': 'sveitsi', 'greece': 'kreikka',
+        'portugal': 'portugali', 'hungary': 'unkari', 'czech': 'tšekki',
+        'bulgaria': 'bulgaria', 'croatia': 'kroatia', 'slovakia': 'slovakia',
+        'slovenia': 'slovenia', 'estonia': 'viro', 'latvia': 'latvia',
+        'lithuania': 'liettua', 'united kingdom': 'iso-britannia', 'britain': 'iso-britannia',
+        'ireland': 'irlanti', 'iceland': 'islanti'
+    }
+
+    # Etsi englanninkielisellä nimellä
+    for englanti_nimi, suomi_vastine in englanti_suomi_map.items():
+        if englanti_nimi in syotetty_maa or syotetty_maa in englanti_nimi:
+            # Etsi suomenkielinen vastine
+            for iso_code, suomi_nimi in maat:
+                if suomi_vastine in suomi_nimi.lower():
+                    return iso_code, suomi_nimi
+
+    return None, None
+
+
+def list_european_countries(yhteys):
+    """Listaa kaikki Euroopan maat"""
+    maat = get_european_countries(yhteys)
+
+    print("\n" + "=" * 50)
+    print("EUROOPAN MAAT")
+    print("=" * 50)
+
+    maat_jarjestetty = sorted(maat, key=lambda x: x[1])
+
+    for i, (iso_country, country_name) in enumerate(maat_jarjestetty, 1):
+        print(f"{i:2d}. {country_name} ({iso_country})")
+
+    print("=" * 50)
+    print(f"Yhteensä {len(maat)} Euroopan maata")
+
+
+def save_found_child(yhteys, pelaaja_nimi, iso_country):
+    """Tallenna löydetty lapsi tietokantaan"""
+    kursori = yhteys.cursor()
+    kursori.execute(
+        "INSERT INTO child_locations (screen_name, iso_country, found) VALUES (%s, %s, TRUE) ON DUPLICATE KEY UPDATE found = TRUE",
+        (pelaaja_nimi, iso_country)
+    )
+    kursori.close()
+
+
+def get_found_children_count(yhteys, pelaaja_nimi):
+    """Laske montako lasta on löydetty"""
+    kursori = yhteys.cursor()
+    kursori.execute("SELECT COUNT(*) FROM child_locations WHERE screen_name = %s AND found = TRUE", (pelaaja_nimi,))
+    tulos = kursori.fetchone()
+    kursori.close()
+    return tulos[0] if tulos else 0
+
+
+def is_child_found(yhteys, pelaaja_nimi, iso_country):
+    """Tarkista onko lapsi jo löydetty tästä maasta"""
+    kursori = yhteys.cursor()
+    kursori.execute(
+        "SELECT found FROM child_locations WHERE screen_name = %s AND iso_country = %s",
+        (pelaaja_nimi, iso_country)
+    )
+    tulos = kursori.fetchone()
+    kursori.close()
+    return tulos[0] if tulos else False
+    """Listaa kaikki Euroopan maat"""
+    maat = get_european_countries(yhteys)
+    if not maat:
+        print("Virhe: Euroopan maita ei voitu hakea!")
+        return
+
+    print("\n" + "=" * 50)
+    print("EUROOPAN MAAT")
+    print("=" * 50)
+
+    maat_jarjestetty = sorted(maat, key=lambda x: x[1])
+
+    for i, (iso_country, country_name) in enumerate(maat_jarjestetty, 1):
+        print(f"{i:2d}. {country_name} ({iso_country})")
+
+    print("=" * 50)
+    print(f"Yhteensä {len(maat)} Euroopan maata")
+
+
+def check_user_exists(yhteys, kayttaja_nimi):
+    """Tarkista onko käyttäjä olemassa"""
     try:
         kursori = yhteys.cursor()
-        kursori.execute("SELECT COUNT(*) FROM game WHERE screen_name = %s", (kayttajanimi,))
+        kursori.execute("SELECT COUNT(*) FROM game WHERE screen_name = %s", (kayttaja_nimi,))
         tulos = kursori.fetchone()
         kursori.close()
         return tulos[0] > 0
-    except mysql.connector.Error as err:
-        print(f"Virhe tietokannassa: {err}")
+    except mysql.connector.Error:
         return False
 
 
-def create_new_user(yhteys, kayttajanimi):
-    """Luo uusi käyttäjä tietokantaan"""
+def create_new_user(yhteys, kayttaja_nimi):
+    """Luo uusi käyttäjä"""
     try:
         kursori = yhteys.cursor()
 
         try:
-            # Yritä ensin ilman id:tä (olettaen että se on AUTO_INCREMENT)
-            kursori.execute("INSERT INTO game (screen_name) VALUES (%s)", (kayttajanimi,))
-
+            kursori.execute("INSERT INTO game (screen_name) VALUES (%s)", (kayttaja_nimi,))
         except mysql.connector.Error as insert_err:
             if "doesn't have a default value" in str(insert_err) and "id" in str(insert_err):
-                # ID-kenttä ei ole AUTO_INCREMENT, generoidaan satunnainen ID
                 random_id = random.randint(1, 999999)
-
-                # Tarkista ettei ID ole jo käytössä
                 kursori.execute("SELECT COUNT(*) FROM game WHERE id = %s", (random_id,))
                 if kursori.fetchone()[0] > 0:
-                    # Jos ID on käytössä, kokeile muutama kerta
                     for _ in range(10):
                         random_id = random.randint(1, 999999)
                         kursori.execute("SELECT COUNT(*) FROM game WHERE id = %s", (random_id,))
                         if kursori.fetchone()[0] == 0:
                             break
 
-                # Lisää käyttäjä ID:n kanssa
-                kursori.execute("INSERT INTO game (id, screen_name) VALUES (%s, %s)", (random_id, kayttajanimi))
+                kursori.execute("INSERT INTO game (id, screen_name) VALUES (%s, %s)", (random_id, kayttaja_nimi))
             else:
-                # Jokin muu virhe
                 raise insert_err
 
         kursori.close()
         return True
 
-    except mysql.connector.Error as err:
-        print(f"Virhe käyttäjän luomisessa: {err}")
+    except mysql.connector.Error:
         return False
 
 
-def get_user_progress(yhteys, kayttajanimi):
-    """Hae käyttäjän edistyminen tietokannasta"""
+def get_user_progress(yhteys, kayttaja_nimi):
+    """Hae käyttäjän edistyminen"""
     try:
         kursori = yhteys.cursor()
-        # Tarkista onko pelaajalla tallennettuja lapsia
-        kursori.execute("SELECT COUNT(*) FROM child_locations WHERE screen_name = %s", (kayttajanimi,))
+        kursori.execute("SELECT COUNT(*) FROM child_locations WHERE screen_name = %s", (kayttaja_nimi,))
         tulos = kursori.fetchone()
         kursori.close()
-        return 1 if tulos[0] > 0 else 0  # Jos lapsia löytyy, peli on aloitettu
+        return 1 if tulos[0] > 0 else 0
     except mysql.connector.Error:
         return 0
 
 
 def handle_user_login(yhteys):
-    """Käsittele käyttäjän sisäänkirjautuminen tai rekisteröityminen"""
+    """Käsittele käyttäjän kirjautuminen"""
     clear()
 
     while True:
@@ -136,197 +274,56 @@ def handle_user_login(yhteys):
         vastaus = input("Oletko uusi käyttäjä? (k/e): ").lower().strip()
 
         if vastaus in ['k', 'kyllä', 'yes', 'y']:
-            # Uusi käyttäjä
             print("\n--- Uuden käyttäjän luominen ---")
             while True:
-                kayttajanimi = input("Syötä haluamasi nimimerkki: ").strip()
+                nimi = input("Syötä haluamasi nimimerkki: ").strip()
 
-                if not kayttajanimi:
+                if not nimi:
                     print("Nimimerkki ei voi olla tyhjä!")
                     continue
 
-                if check_user_exists(yhteys, kayttajanimi):
-                    print(f"Käyttäjänimi '{kayttajanimi}' on jo käytössä. Kokeile toista nimimerkkiä.")
+                if check_user_exists(yhteys, nimi):
+                    print(f"Käyttäjänimi '{nimi}' on jo käytössä.")
                     continue
 
-                # Luo uusi käyttäjä
-                if create_new_user(yhteys, kayttajanimi):
-                    print(f"Tervetuloa peliin, {kayttajanimi}!")
-                    return kayttajanimi, 0  # uusi käyttäjä, edistyminen = 0
+                if create_new_user(yhteys, nimi):
+                    print(f"Tervetuloa peliin, {nimi}!")
+                    return nimi, 0
                 else:
-                    print("Virhe käyttäjän luomisessa. Yritä uudelleen.")
+                    print("Virhe käyttäjän luomisessa.")
 
         elif vastaus in ['e', 'ei', 'no', 'n']:
-            # Vanha käyttäjä
             print("\n--- Vanhan käyttäjän kirjautuminen ---")
             while True:
-                kayttajanimi = input("Syötä nimimerkkisi: ").strip()
+                nimi = input("Syötä nimimerkkisi: ").strip()
 
-                if not kayttajanimi:
+                if not nimi:
                     print("Nimimerkki ei voi olla tyhjä!")
                     continue
 
-                if check_user_exists(yhteys, kayttajanimi):
-                    edistyminen = get_user_progress(yhteys, kayttajanimi)
-                    print(f"Tervetuloa takaisin, {kayttajanimi}!")
-                    if edistyminen > 0:
-                        print(f"Jatkat peliä vaiheesta {edistyminen}.")
-                    return kayttajanimi, edistyminen
+                if check_user_exists(yhteys, nimi):
+                    edistyminen = get_user_progress(yhteys, nimi)
+                    print(f"Tervetuloa takaisin, {nimi}!")
+                    return nimi, edistyminen
                 else:
-                    print(f"Käyttäjänimeä '{kayttajanimi}' ei löytynyt.")
+                    print(f"Käyttäjänimeä '{nimi}' ei löytynyt.")
                     uusi_yritys = input("Haluatko yrittää uudelleen? (k/e): ").lower().strip()
                     if uusi_yritys not in ['k', 'kyllä', 'yes', 'y']:
                         break
-
         else:
             print("Vastaa 'k' (kyllä) tai 'e' (ei).")
-            continue
 
 
-# PELIMEKANIIKKA FUNKTIOT
-def get_european_countries(yhteys):
-    """Hae kaikki Euroopan maat tietokannasta"""
-    try:
-        kursori = yhteys.cursor()
-
-        # Kokeile eri kenttänimiä
-        try:
-            kursori.execute("SELECT iso_country, country_name FROM country WHERE continent = 'EU'")
-            maat = kursori.fetchall()
-        except mysql.connector.Error:
-            try:
-                kursori.execute("SELECT iso_country, name FROM country WHERE continent = 'EU'")
-                maat = kursori.fetchall()
-            except mysql.connector.Error:
-                try:
-                    kursori.execute("SELECT iso_country, iso_country FROM country WHERE continent = 'EU'")
-                    maat = kursori.fetchall()
-                except mysql.connector.Error:
-                    # Jos mikään ei toimi, hae kaikki maat
-                    kursori.execute("SELECT iso_country, iso_country FROM country LIMIT 47")
-                    maat = kursori.fetchall()
-
-        kursori.close()
-        return maat if maat else []
-
-    except mysql.connector.Error as err:
-        print(f"Virhe maiden hakemisessa: {err}")
-        return []
-
-
-def save_child_locations(yhteys, kayttajanimi, lapsi_sijainnit):
-    """Tallenna lasten sijainnit tietokantaan"""
-    try:
-        kursori = yhteys.cursor()
-
-        # Poista vanhat sijainnit
-        kursori.execute("DELETE FROM child_locations WHERE screen_name = %s", (kayttajanimi,))
-
-        # Tallenna uudet sijainnit
-        for lapsi_numero, (iso_country, country_name) in enumerate(lapsi_sijainnit, 1):
-            kursori.execute(
-                "INSERT INTO child_locations (screen_name, child_number, iso_country, country_name, found) VALUES (%s, %s, %s, %s, %s)",
-                (kayttajanimi, lapsi_numero, iso_country, country_name, False)
-            )
-
-        kursori.close()
-        return True
-    except mysql.connector.Error as err:
-        # Jos child_locations taulu ei ole olemassa, luodaan se
-        if "doesn't exist" in str(err):
-            try:
-                print("Luodaan child_locations taulu...")
-                kursori = yhteys.cursor()
-                kursori.execute("""
-                                CREATE TABLE child_locations
-                                (
-                                    id           INT PRIMARY KEY AUTO_INCREMENT,
-                                    screen_name  VARCHAR(50)  NOT NULL,
-                                    child_number INT          NOT NULL,
-                                    iso_country  VARCHAR(2)   NOT NULL,
-                                    country_name VARCHAR(100) NOT NULL,
-                                    found        BOOLEAN DEFAULT FALSE
-                                )
-                                """)
-
-                # Tallenna sijainnit uuteen tauluun
-                for lapsi_numero, (iso_country, country_name) in enumerate(lapsi_sijainnit, 1):
-                    kursori.execute(
-                        "INSERT INTO child_locations (screen_name, child_number, iso_country, country_name, found) VALUES (%s, %s, %s, %s, %s)",
-                        (kayttajanimi, lapsi_numero, iso_country, country_name, False)
-                    )
-
-                kursori.close()
-                return True
-
-            except mysql.connector.Error:
-                return False
-        else:
-            return False
-
-
-def load_child_locations(yhteys, kayttajanimi):
-    """Lataa lasten sijainnit tietokannasta"""
-    try:
-        kursori = yhteys.cursor()
-        kursori.execute(
-            "SELECT child_number, iso_country, country_name, found FROM child_locations WHERE screen_name = %s ORDER BY child_number",
-            (kayttajanimi,)
-        )
-        sijainnit = kursori.fetchall()
-        kursori.close()
-        return sijainnit
-    except mysql.connector.Error:
-        return []
-
-
-def generate_child_locations(yhteys, kayttajanimi, on_uusi_peli):
-    """Generoi tai lataa lasten sijainnit"""
-    if not on_uusi_peli:
-        # Lataa vanhan pelin sijainnit
-        tallennetut_sijainnit = load_child_locations(yhteys, kayttajanimi)
-        if tallennetut_sijainnit:
-            print("Ladataan vanhan pelin sijainnit...")
-            lapsi_sijainnit = []
-            for lapsi_numero, iso_country, country_name, found in tallennetut_sijainnit:
-                lapsi_sijainnit.append((iso_country, country_name, found))
-            return lapsi_sijainnit
-
-    # Luo uudet sijainnit
-    print("Generoidaan uudet sijainnit lapsille...")
-    euroopan_maat = get_european_countries(yhteys)
-
-    if len(euroopan_maat) < 10:
-        print("Virhe: Tietokannassa ei ole tarpeeksi Euroopan maita!")
-        return []
-
-    # Arvo 10 satunnaista maata
-    valitut_maat = random.sample(euroopan_maat, 10)
-    lapsi_sijainnit = [(iso_country, country_name, False) for iso_country, country_name in valitut_maat]
-
-    # Tallenna sijainnit tietokantaan
-    if save_child_locations(yhteys, kayttajanimi, valitut_maat):
-        print("Lasten sijainnit generoitu ja tallennettu!")
-    else:
-        print("Virhe sijaintien tallentamisessa!")
-
-    return lapsi_sijainnit
-
-
-# YKSINKERTAINEN PELISILMUKKA
-def play_simple_game(yhteys, kayttajanimi):
-    """Yksinkertainen toimiva pelisilmukka"""
+def play_simple_game(yhteys, pelaaja_nimi):
+    """Yksinkertainen pelisilmukka"""
     print("\n" + "=" * 60)
     print("ETSINTÄ ALKAA!")
     print("=" * 60)
     print("Olet nyt Suomessa. Äitiapina on valmis lentämään etsimään lapsiaan.")
-    print("💡 Vinkki: Kirjoita maan nimi tai 'lopeta' lopettaaksesi")
+    print("💡 Vinkki: Kirjoita 'help' nähdäksesi kaikki maat")
 
-    # Hae maat listalle help-toimintoa varten
-    maat = get_european_countries(yhteys)
-    maan_nimet = [maa[1] for maa in maat] if maat else ['Saksa', 'Ranska', 'Italia', 'Espanja', 'Ruotsi']
-
-    loydetyt_lapset = 0
+    # Tarkista kuinka monta lasta on jo löydetty
+    loydetyt_lapset = get_found_children_count(yhteys, pelaaja_nimi)
 
     while loydetyt_lapset < 10:
         print(f"\n📊 Edistyminen: {loydetyt_lapset}/10 lasta löydetty")
@@ -339,38 +336,46 @@ def play_simple_game(yhteys, kayttajanimi):
             break
 
         if vastaus.lower() == 'help':
-            print("\nSaatavilla olevat maat:")
-            for i, maa in enumerate(maan_nimet[:20], 1):  # Näytä 20 ensimmäistä
-                print(f"{i:2d}. {maa}")
-            if len(maan_nimet) > 20:
-                print(f"... ja {len(maan_nimet) - 20} muuta")
+            list_european_countries(yhteys)
             continue
 
         if not vastaus:
             print("Syötä maan nimi!")
             continue
 
-        # Simuloi lentämistä
-        print(f"\n🛫 Lentämässä maahan: {vastaus}")
+        iso_country, country_name = find_country_by_name(yhteys, vastaus)
+
+        if not iso_country:
+            print(f"❌ Maata '{vastaus}' ei löytynyt!")
+            print("💡 Kirjoita 'help' nähdäksesi kaikki maat")
+            continue
+
+        # Tarkista onko lapsi jo löydetty tästä maasta
+        if is_child_found(yhteys, pelaaja_nimi, iso_country):
+            print(f"ℹ️ Olet jo löytänyt lapsen maasta {country_name}!")
+            continue
+
+        print(f"\n🛫 Lentämässä maahan: {country_name}")
         print("✈️  🌤️  ☁️  🌤️  ✈️")
         time.sleep(1)
 
-        # Simuloi löytämistä (25% mahdollisuus löytää lapsi)
         lapsi_loydetty = random.random() < 0.25
 
         clear()
         print("=" * 60)
-        print(f"SAAVUIT MAAHAN: {vastaus.upper()}")
+        print(f"SAAVUIT MAAHAN: {country_name.upper()}")
         print("=" * 60)
 
         if lapsi_loydetty:
-            loydetyt_lapset += 1
+            # Tallenna löydetty lapsi
+            save_found_child(yhteys, pelaaja_nimi, iso_country)
+            loydetyt_lapset = get_found_children_count(yhteys, pelaaja_nimi)
             print("🎉 MAHTAVAA! LÖYSIT YHDEN LAPSISTASI! 🎉")
-            print("🐒 Pieni apinapoika juoksee luoksesi itkien ilosta!")
+            print("🐒 Pieni apinapoika juoksee luoksesi!")
             print(f"📊 Nyt olet löytänyt {loydetyt_lapset}/10 lasta")
         else:
             print("😔 Ei löytynyt lasta täältä...")
-            print("🔍 Jatka etsimistä toisesta maasta!")
+            print("🔍 Jatka etsimistä!")
 
         input("\nPaina enter jatkaaksesi...")
         clear()
@@ -386,85 +391,64 @@ def play_simple_game(yhteys, kayttajanimi):
           👑
          😉🐒    <- Vinkkaa silmää
         /  |  \\
-       🏆  |  🏆  <- Pokaali molemmissa käsissä
+       🏆  |  🏆  <- Pokaali
           / \\
          👟 👟
 
     ✨ KAIKKI LAPSET PELASTETTU! ✨
         """)
-        print("Äitiapina ja hänen lapsensa ovat onnellisia!")
+        print("Äitiapina ja lapset ovat onnellisia!")
 
 
 def main():
     """Pelin pääfunktio"""
-    print("🚀 [DEBUG] Peli käynnistyy...")
+    print("🚀 Peli käynnistyy...")
 
-    # Yhdistä tietokantaan
     yhteys = connect_to_database()
     if yhteys is None:
         print("Peliä ei voida käynnistää ilman tietokantayhteyttä.")
         return
 
-    print("✅ [DEBUG] Tietokantayhteys OK")
+    print("✅ Tietokantayhteys OK")
 
-    # Näytä pelin tarina
     print_story()
-
-    # Odota pelaajan syötettä
     input("Paina enter jatkaaksesi: ")
 
-    # Näytä itkevä apina -animaatio
     crying_ape("Äitiapina itkee kadonneita lapsiaan...")
-
     clear()
 
-    # Käsittele käyttäjän kirjautuminen
-    print("🔑 [DEBUG] Käyttäjän kirjautuminen...")
-    kayttajanimi, edistyminen = handle_user_login(yhteys)
-    print(f"👤 [DEBUG] Kirjautui: {kayttajanimi}, edistyminen: {edistyminen}")
+    pelaaja_nimi, edistyminen = handle_user_login(yhteys)
 
     clear()
     print("=" * 50)
     print("SEIKKAILU ALKAA!")
     print("=" * 50)
-    print(f"Pelaaja: {kayttajanimi}")
+    print(f"Pelaaja: {pelaaja_nimi}")
 
-    # Generoi tai lataa lasten sijainnit
-    on_uusi_peli = (edistyminen == 0)
-    lapsi_sijainnit = generate_child_locations(yhteys, kayttajanimi, on_uusi_peli)
-
-    if not lapsi_sijainnit:
-        print("⚠️ Varoitus: Käytetään yksinkertaistettua peliä")
-
-    if on_uusi_peli:
+    if edistyminen == 0:
         print("Aloitat uuden seikkailun!")
-        print("\nMyrsky hajotti äitiapina ja hänen lapsensa ympäri Eurooppaa.")
-        print("10 pientä apinanpoikasta odottaa pelastustaan eri maissa...")
+        print("\nMyrsky hajotti äitiapina ja lapset ympäri Eurooppaa.")
+        print("10 pientä apinanpoikasta odottaa pelastustaan...")
     else:
-        print("Jatkat keskeneräistä peliäsi!")
-        print("\nJatkat etsimään kadonneita lapsia sieltä, missä jäit...")
+        print("Jatkat peliäsi!")
 
-    print("\nÄitiapina on valmis lähtemään etsimään lapsiaan...")
+    print("\nÄitiapina on valmis lähtemään...")
     input("Paina enter aloittaaksesi pelin...")
 
     clear()
 
-    # KÄYNNISTÄ PELI
-    print("🎮 [DEBUG] Käynnistetään peli...")
-
     try:
-        play_simple_game(yhteys, kayttajanimi)
-        print("✅ [DEBUG] Peli päättyi normaalisti")
+        play_simple_game(yhteys, pelaaja_nimi)
+        print("✅ Peli päättyi normaalisti")
     except Exception as e:
-        print(f"❌ [DEBUG] Virhe pelissä: {e}")
+        print(f"❌ Virhe pelissä: {e}")
         import traceback
         traceback.print_exc()
 
-    # Sulje tietokantayhteys
     if yhteys:
         yhteys.close()
 
-    print("👋 [DEBUG] Ohjelma päättyy")
+    print("👋 Ohjelma päättyy")
 
 
 if __name__ == "__main__":
