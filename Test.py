@@ -643,7 +643,7 @@ class FlyingApeGame:
         else:
             print("\n😔 Ei löytynyt lasta täältä...")
             print("🔍 Jatka etsimistä muista maista!")
-            print(f"💡 Vihje: Todennäköisyys löytää lapsi on 25%")
+            print(f"💡 Vihje: Todennäköisyys löytää lapsi on 20%")
 
         input("\nPaina Enter jatkaaksesi...")
 
