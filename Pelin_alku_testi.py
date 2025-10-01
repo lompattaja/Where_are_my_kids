@@ -42,7 +42,7 @@ ja vain sinä voisit auttaa häntä tässä vaikeassa tilanteessa.""")
 jatka()
 
 # Itkevä apina animaatio
-kuvat = [
+itkevä_kuvat = [
     r"""        
                     ..::+*******+.:..               
                 .:********************:.            
@@ -164,7 +164,7 @@ kuvat = [
     """,
 ]
 
-for kuva in kuvat:
+for kuva in itkevä_kuvat:
     tyhjennä()
     print(kuva)
     time.sleep(0.6)             # kuvat tulee 0.6 sekunnin välein (näyttää kuin apina itkee)
