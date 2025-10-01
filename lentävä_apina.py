@@ -5,7 +5,8 @@ import os
 def tyhjennä():
     os.system("cls")
 
-pictures = [
+def lentävä_apina():
+    lentävä_kuvat = [
 r"""
                                          *@@-=#:
                                           #%@%=@+
@@ -54,12 +55,15 @@ r"""
 """
 ]
 
-i = 0
-kierrokset = 5
+    i = 0
+    kierrokset = 5
 
-while i < kierrokset:
-    for picture in pictures:
-        tyhjennä()
-        print(picture)
-        time.sleep(0.5)
-    i += 1
+    while i < kierrokset:
+        for kuva in lentävä_kuvat:
+            tyhjennä()
+            print(kuva)
+            time.sleep(0.5)
+        i += 1
+    return
+
+lentävä_apina()
