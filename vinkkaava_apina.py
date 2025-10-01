@@ -4,7 +4,7 @@ import os
 def tyhjennä():
     os.system("cls")
 
-pictures = [
+vinkkaava_kuvat = [
     r"""
                 ..::+*******+.:..               
             .:********************:.            
@@ -78,7 +78,7 @@ r"""
 """,
 ]
 
-for picture in pictures:
+for kuva in vinkkaava_kuvat:
     tyhjennä()
-    print(picture)
+    print(kuva)
     time.sleep(1)
