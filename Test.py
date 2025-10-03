@@ -107,71 +107,6 @@ class CountryManager:
     def __init__(self, db: Database):
         self.db = db
         self.countries_cache = None
-        # Käännökset englannista suomeksi
-        self.translations = {
-            'Albania': 'Albania',
-            'Andorra': 'Andorra',
-            'Armenia': 'Armenia',
-            'Austria': 'Itävalta',
-            'Azerbaijan': 'Azerbaidžan',
-            'Belarus': 'Valko-Venäjä',
-            'Belgium': 'Belgia',
-            'Bosnia and Herzegovina': 'Bosnia ja Hertsegovina',
-            'Bulgaria': 'Bulgaria',
-            'Croatia': 'Kroatia',
-            'Cyprus': 'Kypros',
-            'Czech Republic': 'Tšekki',
-            'Czechia': 'Tšekki',
-            'Denmark': 'Tanska',
-            'Estonia': 'Viro',
-            'Finland': 'Suomi',
-            'France': 'Ranska',
-            'Georgia': 'Georgia',
-            'Germany': 'Saksa',
-            'Greece': 'Kreikka',
-            'Hungary': 'Unkari',
-            'Iceland': 'Islanti',
-            'Ireland': 'Irlanti',
-            'Italy': 'Italia',
-            'Kazakhstan': 'Kazakstan',
-            'Kosovo': 'Kosovo',
-            'Latvia': 'Latvia',
-            'Liechtenstein': 'Liechtenstein',
-            'Lithuania': 'Liettua',
-            'Luxembourg': 'Luxemburg',
-            'Macedonia': 'Pohjois-Makedonia',
-            'North Macedonia': 'Pohjois-Makedonia',
-            'Malta': 'Malta',
-            'Moldova': 'Moldova',
-            'Monaco': 'Monaco',
-            'Montenegro': 'Montenegro',
-            'Netherlands': 'Alankomaat',
-            'Norway': 'Norja',
-            'Poland': 'Puola',
-            'Portugal': 'Portugali',
-            'Romania': 'Romania',
-            'Russia': 'Venäjä',
-            'Russian Federation': 'Venäjä',
-            'San Marino': 'San Marino',
-            'Serbia': 'Serbia',
-            'Slovakia': 'Slovakia',
-            'Slovenia': 'Slovenia',
-            'Spain': 'Espanja',
-            'Sweden': 'Ruotsi',
-            'Switzerland': 'Sveitsi',
-            'Turkey': 'Turkki',
-            'Ukraine': 'Ukraina',
-            'United Kingdom': 'Iso-Britannia',
-            'Vatican City': 'Vatikaani',
-            'Vatican': 'Vatikaani'
-        }
-
-    def _translate_to_finnish(self, english_name: str) -> str:
-        """Käännä maan nimi suomeksi"""
-        # Poista ylimääräiset välilyönnit
-        english_name = english_name.strip()
-        # Palauta käännös tai alkuperäinen nimi jos käännöstä ei löydy
-        return self.translations.get(english_name, english_name)
 
     def get_european_countries(self) -> List[Country]:
         """Hae kaikki Euroopan maat country-taulusta"""
@@ -191,56 +126,34 @@ class CountryManager:
         results = cursor.fetchall()
         cursor.close()
 
-        # Käännä nimet suomeksi
-        self.countries_cache = []
-        for row in results:
-            finnish_name = self._translate_to_finnish(row[1])
-            self.countries_cache.append(Country(iso_country=row[0], name=finnish_name))
-
-        # Järjestä suomenkielisten nimien mukaan
-        self.countries_cache.sort(key=lambda x: x.name)
-
+        self.countries_cache = [Country(iso_country=row[0], name=row[1]) for row in results]
         return self.countries_cache
 
     def find_country(self, search_term: str) -> Optional[Country]:
-        """Etsi maa hakusanalla (tukee suomea, englantia ja ISO-koodeja)"""
+        """Etsi maa hakusanalla"""
         search_term = search_term.strip()
         countries = self.get_european_countries()
-        search_lower = search_term.lower()
 
         # Etsi täsmällisellä ISO-koodilla
         for country in countries:
             if country.iso_country.upper() == search_term.upper():
                 return country
 
-        # Etsi täsmällisellä suomenkielisellä nimellä
+        # Etsi täsmällisellä nimellä
         for country in countries:
-            if country.name.lower() == search_lower:
+            if country.name.lower() == search_term.lower():
                 return country
 
-        # Etsi englanninkielisellä nimellä (käännä suomeksi)
-        finnish_translation = self._translate_to_finnish(search_term)
-        if finnish_translation != search_term:
-            for country in countries:
-                if country.name.lower() == finnish_translation.lower():
-                    return country
-
-        # Etsi osittaisella nimellä (suomi)
+        # Etsi osittaisella nimellä
+        search_lower = search_term.lower()
         for country in countries:
             if search_lower in country.name.lower():
                 return country
 
-        # Etsi nimen alusta (suomi)
+        # Etsi nimen alusta
         for country in countries:
             if country.name.lower().startswith(search_lower):
                 return country
-
-        # Kokeile vielä löytää englanninkielisellä osittaisella haulla
-        for eng_name, fin_name in self.translations.items():
-            if search_lower in eng_name.lower():
-                for country in countries:
-                    if country.name == fin_name:
-                        return country
 
         return None
 
@@ -643,7 +556,7 @@ class FlyingApeGame:
         else:
             print("\n😔 Ei löytynyt lasta täältä...")
             print("🔍 Jatka etsimistä muista maista!")
-            print(f"💡 Vihje: Todennäköisyys löytää lapsi on 20%")
+            print(f"💡 Vihje: Todennäköisyys löytää lapsi on 25%")
 
         input("\nPaina Enter jatkaaksesi...")
 
