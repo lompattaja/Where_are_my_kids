@@ -5,7 +5,7 @@ import os
 def tyhjennä():
     os.system("cls")
 
-def lentävä_apina():
+def lentävä_animaatio():
     lentävä_kuvat = [
 r"""
                                          *@@-=#:
@@ -66,4 +66,4 @@ r"""
         i += 1
     return
 
-lentävä_apina()
+lentävä_animaatio()
