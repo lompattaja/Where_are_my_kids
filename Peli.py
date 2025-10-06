@@ -31,4 +31,3 @@ Auttaisitko häntä pelaaja?""")
 
 input("Paina enter jaktaaksesi: ")
 clear()
-
