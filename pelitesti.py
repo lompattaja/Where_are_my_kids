@@ -269,29 +269,67 @@ def arvo_apinoiden_maat(nimimerkki):
     kursori.execute(sql)
     id = kursori.fetchone()[0]
 
-    # haetaan euroopan maat
+    # Tarkistetaan onko pelaajalla jo kadonneita maita
+    sql = (f"select country_name from kadonneet_lapset where game_id = '{id}'")
+    kursori.execute(sql)
+    olemassa_olevat_maat = kursori.fetchall()
+
+    if olemassa_olevat_maat:
+        return [maa for maa, in olemassa_olevat_maat]
+
+    # Jos pelaajalla ei ole jo kadonneita maita:
+    # Haetaan euroopan maat
     sql = ('select name from country where continent = "EU"')
     kursori.execute(sql)
     kaikki_maat = kursori.fetchall() # hakee kaikki rivit sql:stä eli kaikki EU maat (yht. 50)
 
-    # arvotaan 10 eri maata
-    satunnaiset_maat = random.sample(kaikki_maat, 10)  # random.sample(lista_josta_arvotaan, monta)
+    # ja arvotaan 10 eri maata merkkijonona
+    satunnaiset_maat = [maa for maa, in random.sample(kaikki_maat, 10)]  # random.sample(lista_josta_arvotaan, monta)
 
     # Tallennetaan tauluun kadonneet_lapset
     for maa in satunnaiset_maat:
-        sql = f"insert into kadonneet_lapset (game_id, country_name) values ({id}, '{maa}')"
-        kursori.execute(sql)[0]
+        sql = f"insert into kadonneet_lapset (game_id, country_name) values ('{id}', '{maa}')"
+        kursori.execute(sql)
 
+    yhteys.commit()
     return satunnaiset_maat
 
-# APU KOMENTO FUNKTIONA
 
-def näytä_help(kadonneet, löydetyt):
-    print("Nämä maat ovat vielä käymättä: ")
-    for maa in kadonneet:
-        if maa not in löydetyt:
+# APU KOMENTO FUNKTIONA
+# - ei toimi (se ei päivitä kun esimerkiksi kirjoittaa maan ja sen jälkeen /help niin ei kumita juuri kirjoitettua maata)
+def näytä_help(nimimerkki):
+    kursori = yhteys.cursor()
+
+    # Haetaan pelaajan id
+    sql = f"select id from game where screen_name = '{nimimerkki}'"
+    kursori.execute(sql)
+    id = kursori.fetchone()[0]
+
+    # Haetaan kaikki Euroopan maat
+    sql = "select name from country where continent = 'EU'"
+    kursori.execute(sql)
+    kaikki_maat = kursori.fetchall()  # lista tuplia: [('Finland',), ('Sweden',) ...]
+
+    # Haetaan maat, joissa pelaaja on jo käynyt (löytänyt tai yrittänyt)
+    sql = f"select country_name from kadonneet_lapset where game_id = '{id}'"
+    kursori.execute(sql)
+    kaydyt_maat = kursori.fetchall()
+
+    # Luodaan lista maista, joissa pelaaja ei ole vielä käynyt
+    ei_käydyt_maat = []
+    for maa_rivi in kaikki_maat:
+        maa = maa_rivi[0]
+        if (maa,) not in kaydyt_maat:  # tarkistetaan tuplana, koska fetchall palauttaa tuplan
+            ei_käydyt_maat.append(maa)
+
+    if not ei_käydyt_maat:
+        print("Olet jo käynyt kaikissa Euroopan maissa.")
+    else:
+        print("Nämä maat ovat vielä käymättä: ")
+        for maa in ei_käydyt_maat:
             print("-", maa)
-    print()
+
+
 
 
 # FUNKTIO JOKA TARKISTAA VALITUN MAAN
@@ -300,12 +338,12 @@ def lentää_maahan(nimimerkki, maa):
     kursori = yhteys.cursor()
 
     # Haetaan pelaajan id
-    sql = f"select id from game where screen_name = {nimimerkki}"
+    sql = f"select id from game where screen_name = '{nimimerkki}'"
     kursori.execute(sql)
-    id = kursori.fetchone()
+    id = kursori.fetchone()[0]
 
-    # Onko tässä maassa apina?
-    sql = f"select id, loydetty from kadonneet_lapset where game_id = {nimimerkki} and country_name = '{maa}'"
+    # sql vastaa kysymykseen onko tässä maassa apina?
+    sql = f"select id, loydetty from kadonneet_lapset where game_id = '{id}' and country_name = '{maa}'"
     kursori.execute(sql)
     tulos = kursori.fetchone()
 
@@ -318,43 +356,28 @@ def lentää_maahan(nimimerkki, maa):
         return False
 
     # Jos kadonnut lapsi löytynyt, merkitään löydetyksi
-    sql = f"update kadonneet_lapset set loydetty = true where game_id = {nimimerkki}"
+    sql = f"update kadonneet_lapset set loydetty = true where game_id = '{id}' and country_name = '{maa}'"
     kursori.execute(sql)
     print(f"Mahtavaa! Löysit kadonneen lapsen {maa}-maasta!")
     return True
 
 
-# PELIN ALOITUS KYSYMYS:
-def pelaa(kadonneet):
-    löydetyt = []           # luodaan tyhjä lista, johon tallenetaan löydetyt maat
+# Haetaan pelaajan id ja jo löydettyjen apinanpoikasten määrä
+kursori = yhteys.cursor()
+sql = f"select id from game where screen_name = '{nimimerkki}'"
+kursori.execute(sql)
+id = kursori.fetchone()[0]
 
-    while len(löydetyt) < len(kadonneet):           # silmukka niin kauan kuin löydetyt maat < kadonneet maat
-        arvaus = input("Minne maahan haluat lentää? ")
+sql = f"select count(*) from kadonneet_lapset where game_id = '{id}' and loydetty = true"
+kursori.execute(sql)
+löydetyt = kursori.fetchone()[0]  # Tämä on jo löydettyjen määrä
 
-        if arvaus == "/help":
-            print("Nämä EU:n maat vielä käymättä: ")
-            for maa in kadonneet:
-                if maa not in löydetyt:
-                    print(maa)
 
-        elif arvaus in kadonneet:                    # tarkistetaan, onko käyttäjän kirjoittama maa listassa kadonneet
-            if arvaus in löydetyt:
-                print(f"Olet jo käynyt {arvaus}-maassa.")
-            else:
-                print(f"Löysit kadonneen apinanpoikasen! 🐒")
-                löydetyt.append(arvaus)            # lisätään maa löydettyjen listaan
-                print(f"Sinulla on vielä {len(kadonneet) - len(löydetyt)} löydettävää maata jäljellä!")
-        else:
-            print("Tämä maa ei ole Eurooppa listalla. Kokeile uudelleen. ")
-    print("Hienoa! Olet löytänyt kaikki apinanpoikaset!")
 
-# PÄÄOHJELMA
+# PÄÄOHJELMA silmukka
+satunnaiset_maat = arvo_apinoiden_maat(nimimerkki)
 
-löydetyt = 0
-
-arvo_apinoiden_maat(nimimerkki)
-
-while löydetyt < 10:
+while löydetyt < len(satunnaiset_maat):
     komento = input("Mihin EU maahan haluat lentää? (jos tarvitset apua kirjoita /help): ")
 
     if komento == "/help":
@@ -362,6 +385,6 @@ while löydetyt < 10:
     else:
         if lentää_maahan(nimimerkki, komento):
             löydetyt += 1
-            print(f"Löydettyjä apinanpoikasia: {löydetyt}/10.")
+            print(f"Löydettyjä apinanpoikasia: {löydetyt}/{len(satunnaiset_maat)}.")
 
-print("Löysit kaikki apinat!")
+print("Kiitos! Löysit kaikki apinanpoikaset!")
