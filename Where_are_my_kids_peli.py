@@ -20,35 +20,35 @@ def tyhjennä():
 def jatka():
     print(input("""
 
-Paina enter jatkaaksesi."""))
+    Paina enter jatkaaksesi."""))
     os.system("cls")
 
 # Pelin tarina
 print("""
 
-            Eräänä päivänä lentävä apina ja hänen kymmenen lastaan olivat matkalla takaisin kotiin.""")
+    Eräänä päivänä lentävä apina ja hänen kymmenen lastaan olivat matkalla takaisin kotiin.""")
 jatka()
 print("""
 
-            Kovat tuulet tarttuivat pieniin apinanpoikasiin ja lennättivät heidät kauas pois, ympäri Euroopan maita.""")
+    Kovat tuulet tarttuivat pieniin apinanpoikasiin ja lennättivät heidät kauas pois, ympäri Euroopan maita.""")
 jatka()
 print("""
 
-            Äitiapina kauhistui.
-            Hän yritti tavoittaa lapsiaan, mutta tuulen voima oli liian suuri.""")
+    Äitiapina kauhistui.
+    Hän yritti tavoittaa lapsiaan, mutta tuulen voima oli liian suuri.""")
 jatka()
 print("""
 
-            Kun myrsky vihdoin tyyntyi, jäljellä oli vain hiljainen taivas ja äidin sydäntä painava huoli.""")
+    Kun myrsky vihdoin tyyntyi, jäljellä oli vain hiljainen taivas ja äidin sydäntä painava huoli.""")
 jatka()
 print("""
 
-            Lentävä apina keräsi rohkeutensa ja hänen oli lähdettävä etsimään kadonneita lapsiaan.""")
+    Lentävä apina keräsi rohkeutensa ja hänen oli lähdettävä etsimään kadonneita lapsiaan.""")
 jatka()
 print("""
 
-            Jokainen niistä saattoi olla missä päin Eurooppaa tahansa
-            ja vain sinä voisit auttaa häntä tässä vaikeassa tilanteessa.""")
+    Jokainen niistä saattoi olla missä päin Eurooppaa tahansa
+    ja vain sinä voisit auttaa häntä tässä vaikeassa tilanteessa.""")
 jatka()
 
 # Itkevä apina animaatio
@@ -182,7 +182,9 @@ for kuva in itkevä_kuvat:
 tyhjennä()
 
 # Pelin alku
-print("Auttaisitko häntä?")
+print("""
+
+    Auttaisitko häntä?""")
 jatka()
 
 # Haetaan game-taulusta suurin id-arvo ja palautetaan se suurin arvo +1. (koska id:llä ei ole auto_increment)
@@ -203,7 +205,8 @@ def lisää_pelaaja(nimimerkki):
     sql = f"insert into game (id, screen_name) values ('{uusi_id}', '{nimimerkki}')"
     kursori = yhteys.cursor()
     kursori.execute(sql)
-    print(f"Kiitos, kun autat minua {nimimerkki}.")
+    print(f"""
+    Kiitos, kun autat minua {nimimerkki}.""")
 
 # Tarkistaa onko pelaajan antama nimimerkki jo käytössä
 # Palauttaa True jos löytyy ja False jos ei löydy
@@ -215,18 +218,25 @@ def nimimerkki_käytössä(nimimerkki):
     return tulos[0] > 0  # sql palauttaa taas tuplen niin otetaan eka arvo numerona
 
 # PÄÄOHJELMA NIMIMERKIN TALLENTAMISEEN:
-print("Tervetuloa peliin.")
+print("""
+    Tervetuloa peliin.""")
 
 # Kysytään onko uusi vai vanha pelaaja
 # Jos vanha pelaaja niin jatketaan vanhasta pelistä ellei pelaaja halua aloittaa uutta peliä
 # Jos on uusi pelaaja niin aloitetaan uusi peli
 while True:
-    vastaus = input("Oletko uusi pelaaja? (kyllä/ei): ").strip().lower()
+    vastaus = input("""
+    Oletko uusi pelaaja? (kyllä/ei): """).strip().lower()
+    tyhjennä()
     if vastaus == "kyllä":  # eli uusi pelaaja
         while True:
-            nimimerkki = input("Anna lentävälle apinalle nimimerkki: ").strip()
+            nimimerkki = input("""
+    Anna lentävälle apinalle nimimerkki: """).strip()
+            tyhjennä()
             if nimimerkki_käytössä(nimimerkki):
-                print("Nimimerkki on jo käytössä, valitse toinen.")
+                print("""
+    Nimimerkki on jo käytössä, valitse toinen.""")
+                tyhjennä()
             else:
                 lisää_pelaaja(nimimerkki)
                 break
@@ -234,31 +244,40 @@ while True:
 
     elif vastaus == "ei":  # eli vanha pelaaja
         while True:
-            jatka_peliä = input("Haluatko jatkaa mihin jäit? (kyllä/ei): ").strip().lower()
+            jatka_peliä = input("""
+    Haluatko jatkaa mihin jäit? (kyllä/ei): """).strip().lower()
             if jatka_peliä == "kyllä":
-                nimimerkki = input("Anna vanha nimimerkkisi: ").strip()
+                nimimerkki = input("""
+    Anna vanha nimimerkkisi: """).strip()
+                tyhjennä()
                 if nimimerkki_käytössä(nimimerkki):
-                    print(f"Tervetuloa takaisin peliin, {nimimerkki}!")
+                    print(f"""
+    Tervetuloa takaisin peliin, {nimimerkki}!""")
                     break
                 else:
-                    print("Nimimerkkiä ei löytynyt.")
+                    print("""
+    Nimimerkkiä ei löytynyt.""")
             elif jatka_peliä == "ei":
                 while True:
-                    nimimerkki = input("Anna uusi nimimerkki: ").strip()
+                    nimimerkki = input("""
+    Anna uusi nimimerkki: """).strip()
                     if nimimerkki_käytössä(nimimerkki):
-                        print("Nimimerkki on jo käytössä, valitse toinen.")
+                        print("""
+    Nimimerkki on jo käytössä, valitse toinen.""")
                     else:
                         lisää_pelaaja(nimimerkki)
                         break
                 break
 
             else:
-                print('Väärä syöte, kirjoita vain "kyllä" tai "ei".')
+                print('''
+    Väärä syöte, kirjoita vain "kyllä" tai "ei".''')
         break
 
 
     else:
-        print('Väärä syöte, kirjoita vain "kyllä" tai "ei".')
+        print('''
+    Väärä syöte, kirjoita vain "kyllä" tai "ei".''')
 
 # Funktio, joka hakee pelin id:n annetun nimimerkin perusteella
 def hae_game_id(nimimerkki):
@@ -446,15 +465,17 @@ löydetyt_lapset = kadonneet_lapset_määrä(game_id)
 
 while löydetyt_lapset < 10:
     print("""
-Mihin maahan haluaisit lentää? (Kirjoita maan nimi englanniksi. /help näyttää kaikki EU-maat.)
+    Mihin maahan haluaisit lentää? (Kirjoita maan nimi englanniksi. /help näyttää kaikki EU-maat.)
     """)
-    maa = input("Valitse maa: ").strip()
+    maa = input("""
+    Valitse maa: """).strip()
 
     if maa.lower() == "/help":
         help_komento(game_id)
     else:
         if maa.lower() not in eu_maat:
-            print(f"{maa} ei ole EU-maa. Valitse toinen maa.")
+            print(f"""
+    {maa} ei ole EU-maa. Valitse toinen maa.""")
         else:
             sql = f"select count(*) from käydyt_maat where game_id = '{game_id}' and lower(country_name) = '{maa.lower()}'"
             kursori = yhteys.cursor()
@@ -471,14 +492,18 @@ Mihin maahan haluaisit lentää? (Kirjoita maan nimi englanniksi. /help näyttä
                 löydetyt_lapset = kadonneet_lapset_määrä(game_id)
 
                 if löytyi:
-                    print(f"Löysit kadonneen apinanpoikasen! Löydetty {löydetyt_lapset}/10.")
+                    print(f"""
+    Löysit kadonneen apinanpoikasen! Löydetty {löydetyt_lapset}/10.""")
                 else:
-                    print(f"Ei löytynyt poikasta. Tähän mennessä löydetty {löydetyt_lapset}/10.")
+                    print(f"""
+    Ei löytynyt poikasta. Tähän mennessä löydetty {löydetyt_lapset}/10.""")
             else:
-                print("Olet jo käynyt siellä. Valitse toinen maa.")
+                print("""
+    Olet jo käynyt siellä. Valitse toinen maa.""")
 
     if löydetyt_lapset == 10:
-        print("Kaikki kadonneet poikaset löydetty!")
+        print("""
+    JIPPII!! Kaikki kadonneet poikaset on löydetty!""")
         jatka()
 
         vinkkaava_kuvat = [
