@@ -503,7 +503,12 @@ while löydetyt_lapset < 10:
 
     if löydetyt_lapset == 10:
         print("""
-    JIPPII!! Kaikki kadonneet poikaset on löydetty!""")
+    JIPPII!! Kaikki kadonneet poikaset on löydetty!
+    
+    Huom! EU-maiden välisen lennon päästöt ovat keskimäärin noin ... per matkustaja.
+    Tässä pelissä ei kuitenkaan synny päästöjä, koska lentävä apina on satuhahmo.
+    Hän liikkuu ympäristöystävällisesti mielikuvituksen siivin!
+    """)
         jatka()
 
         vinkkaava_kuvat = [
