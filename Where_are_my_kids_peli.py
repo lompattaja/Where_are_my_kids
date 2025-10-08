@@ -494,17 +494,10 @@ def lopeta_peli(game_id):
     """
     löydetyt_lapset = kadonneet_lapset_määrä(game_id)
     print(f"""
-
-    =========================================
     PELI LOPETETTU
-    =========================================
-
     Löysit {löydetyt_lapset}/10 lasta.
-
     Kiitos pelaamisesta!
     Äitiapina toivottaa sinulle hyvää päivän jatkoa.
-
-    =========================================
     """)
     yhteys.close()  # Suljetaan tietokantayhteys
     exit()  # Lopetetaan ohjelma
