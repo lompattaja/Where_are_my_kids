@@ -537,7 +537,9 @@ while löydetyt_lapset < 10:
         print("""
     JIPPII!! Kaikki kadonneet poikaset on löydetty!
 
-    FUN FACT! EU-maiden välisen lennon päästöt ovat keskimäärin noin ... per matkustaja.
+    !FUN FACT! 
+    Vuonna 2017 lennot aiheuttivat yhteensä noin 860 miljoonan tonnin hiilidioksidipäästöt
+    maailmanlaajuisesti.
     Tässä pelissä ei kuitenkaan synny päästöjä, koska lentävä apina on satuhahmo.
     Hän liikkuu ympäristöystävällisesti mielikuvituksen siivin!
     """)
