@@ -402,9 +402,7 @@ def tarkista_maa(game_id, maa):
 
 # Funktio pelin lopettamiseen
 def lopeta_peli(game_id):
-    """
-    Lopettaa pelin ja näyttää tilastot
-    """
+
     löydetyt_lapset = kadonneet_lapset_määrä(game_id)
     print(f"""
     PELI LOPETETTU
