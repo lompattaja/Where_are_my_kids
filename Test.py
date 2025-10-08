@@ -312,11 +312,6 @@ def hae_eu_maat():
 def arvo_apinoiden_maat(game_id):
     kursori = yhteys.cursor()
 
-    # Haetaan pelaajan id
-    sql = f"select id from game where lower(screen_name) = lower('{nimimerkki}')"
-    kursori.execute(sql)
-    id = kursori.fetchone()[0]
-
     # Tarkistetaan onko pelaajalla jo arvottuja maita
     sql = f"select country_name from kadonneet_lapset where game_id = '{game_id}'"
     kursori.execute(sql)
@@ -328,19 +323,17 @@ def arvo_apinoiden_maat(game_id):
             maat.append(rivi[0])
         return maat
 
-    # Haetaan kaikki EU-maat
-    sql = f"select name from country where continent = 'EU'"
-    kursori.execute(sql)
-    kaikki_maat = []
-    for rivi in kursori.fetchall():
-        kaikki_maat.append(rivi[0])
+    # Haetaan kaikki EU-maat käyttämällä valmista funktiota (vältetään koodin toistoa)
+    kaikki_maat = hae_eu_maat()
+    # Muutetaan takaisin isoiksi kirjaimiksi arvontaa varten
+    kaikki_maat = [maa.title() for maa in kaikki_maat]
 
     # Arvotaan 10 eri EU-maata
     valitut_maat = random.sample(kaikki_maat, 10)
 
-    # Tallennetaan ne tietokantaan
+    # Tallennetaan ne tietokantaan käyttäen game_id parametria
     for maa in valitut_maat:
-        sql = f"insert into kadonneet_lapset (game_id, country_name) values ('{id}', '{maa}')"
+        sql = f"insert into kadonneet_lapset (game_id, country_name) values ('{game_id}', '{maa}')"
         kursori.execute(sql)
 
     yhteys.commit()
@@ -351,12 +344,10 @@ def arvo_apinoiden_maat(game_id):
 def help_komento(game_id):
     kursori = yhteys.cursor()
 
-    # Haetaan kaikki EU-maat
-    sql = "select name from country where continent = 'EU'"
-    kursori.execute(sql)
-    kaikki_maat = []
-    for rivi in kursori.fetchall():
-        kaikki_maat.append(rivi[0])
+    # Haetaan kaikki EU-maat käyttämällä valmista funktiota (vältetään koodin toistoa)
+    kaikki_maat = hae_eu_maat()
+    # Muutetaan takaisin isoiksi kirjaimiksi näyttöä varten
+    kaikki_maat = [maa.title() for maa in kaikki_maat]
 
     # Haetaan maat joissa pelaaja on jo käynyt
     sql = f"select country_name from käydyt_maat where game_id = '{game_id}' and käyty = 1"
@@ -474,22 +465,14 @@ def lentävä_animaatio():
 
 # Funktio pelin lopettamiseen
 def lopeta_peli(game_id):
-    """
-    Lopettaa pelin ja näyttää tilastot
-    """
+
     löydetyt_lapset = kadonneet_lapset_määrä(game_id)
     print(f"""
-
-    =========================================
     PELI LOPETETTU
-    =========================================
-
     Löysit {löydetyt_lapset}/10 lasta.
-
     Kiitos pelaamisesta!
+    Toivottavasti tulet pian takaisin!
     Äitiapina toivottaa sinulle hyvää päivän jatkoa.
-
-    =========================================
     """)
     yhteys.close()  # Suljetaan tietokantayhteys
     exit()  # Lopetetaan ohjelma
