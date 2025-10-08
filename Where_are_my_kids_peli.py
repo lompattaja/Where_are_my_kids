@@ -475,7 +475,7 @@ while löydetyt_lapset < 10:
     else:
         if maa.lower() not in eu_maat:
             print(f"""
-    {maa} ei ole EU-maa. Valitse toinen maa.""")
+    {maa} ei ole EU-maa tai se on kirjoitettu väärin. Valitse toinen maa.""")
         else:
             sql = f"select count(*) from käydyt_maat where game_id = '{game_id}' and lower(country_name) = '{maa.lower()}'"
             kursori = yhteys.cursor()
@@ -505,7 +505,7 @@ while löydetyt_lapset < 10:
         print("""
     JIPPII!! Kaikki kadonneet poikaset on löydetty!
     
-    Huom! EU-maiden välisen lennon päästöt ovat keskimäärin noin ... per matkustaja.
+    FUN FACT! EU-maiden välisen lennon päästöt ovat keskimäärin noin ... per matkustaja.
     Tässä pelissä ei kuitenkaan synny päästöjä, koska lentävä apina on satuhahmo.
     Hän liikkuu ympäristöystävällisesti mielikuvituksen siivin!
     """)
