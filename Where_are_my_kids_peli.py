@@ -2,7 +2,7 @@ import mysql.connector
 import os
 import time
 import random
-
+# Master file, viimeisin versio pelistä.
 # Muodostetaan tietokantayhteys
 yhteys = mysql.connector.connect(
     host='127.0.0.1',
