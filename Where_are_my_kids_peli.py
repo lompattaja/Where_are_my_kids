@@ -13,15 +13,18 @@ yhteys = mysql.connector.connect(
     autocommit=True
 )
 
+
 # Funktio, joka tyhjentää näytön (windows)
 def tyhjennä():
     os.system("cls")
+
 
 def jatka():
     print(input("""
 
     Paina enter jatkaaksesi."""))
     os.system("cls")
+
 
 # Pelin tarina
 print("""
@@ -187,6 +190,7 @@ print("""
     Auttaisitko häntä?""")
 jatka()
 
+
 # Haetaan game-taulusta suurin id-arvo ja palautetaan se suurin arvo +1. (koska id:llä ei ole auto_increment)
 # id on varchar eli se on tekstikenttä ei numero, eli pitää palauttaa merkkijonona (str)
 def luo_uusi_id():
@@ -198,6 +202,7 @@ def luo_uusi_id():
     uusi_id = int(suurin_id) + 1  # muutetaan suurin_id kokonaisluvuksi, koska se on string
     return str(uusi_id)  # muutetaan se takaisin stringiksi
 
+
 # Lisätään uusi rivi game-tauluun kohtaan (id ja screen_name)
 def lisää_pelaaja(nimimerkki):
     uusi_id = luo_uusi_id()  # hakee seuraavan id:n luo_uusi_id funktion avulla
@@ -208,6 +213,7 @@ def lisää_pelaaja(nimimerkki):
     print(f"""
     Kiitos, kun autat minua {nimimerkki}.""")
 
+
 # Tarkistaa onko pelaajan antama nimimerkki jo käytössä
 # Palauttaa True jos löytyy ja False jos ei löydy
 def nimimerkki_käytössä(nimimerkki):
@@ -216,6 +222,7 @@ def nimimerkki_käytössä(nimimerkki):
     kursori.execute(sql)
     tulos = kursori.fetchone()
     return tulos[0] > 0  # sql palauttaa taas tuplen niin otetaan eka arvo numerona
+
 
 # PÄÄOHJELMA NIMIMERKIN TALLENTAMISEEN:
 print("""
@@ -279,6 +286,7 @@ while True:
         print('''
     Väärä syöte, kirjoita vain "kyllä" tai "ei".''')
 
+
 # Funktio, joka hakee pelin id:n annetun nimimerkin perusteella
 def hae_game_id(nimimerkki):
     sql = f"select id from game where lower(screen_name) = lower('{nimimerkki}')"
@@ -286,6 +294,7 @@ def hae_game_id(nimimerkki):
     kursori.execute(sql)
     tulos = kursori.fetchone()
     return tulos[0]
+
 
 # Funktio, joka hakee EU-maat
 def hae_eu_maat():
@@ -297,6 +306,7 @@ def hae_eu_maat():
         kaikki_maat.append(rivi[0].lower())
     kursori.close()
     return kaikki_maat
+
 
 # Funktio, joka arpoo 10 eri EU-maata ja tallentaa ne tietokantaan, jos ei ole jo tallennettu
 def arvo_apinoiden_maat(game_id):
@@ -336,6 +346,7 @@ def arvo_apinoiden_maat(game_id):
     yhteys.commit()
     return valitut_maat
 
+
 # Funktio /help-komennolle
 def help_komento(game_id):
     kursori = yhteys.cursor()
@@ -364,6 +375,7 @@ def help_komento(game_id):
             merkki = " "
         print(f"{maa} [{merkki}]")
 
+
 # Funktio joka tarkistaa monta poikasta on löydetty
 def kadonneet_lapset_määrä(game_id):
     sql = f"select count(*) from kadonneet_lapset where game_id = '{game_id}' and löydetyt_lapset = 1"
@@ -371,6 +383,7 @@ def kadonneet_lapset_määrä(game_id):
     kursori.execute(sql)
     löydetyt = kursori.fetchone()[0]
     return löydetyt
+
 
 # Funktio, joka tarkistaa onko lapsi löydetty valitusta maasta
 def tarkista_maa(game_id, maa):
@@ -387,12 +400,29 @@ def tarkista_maa(game_id, maa):
         return True
     return False
 
+# Funktio pelin lopettamiseen
+def lopeta_peli(game_id):
+    """
+    Lopettaa pelin ja näyttää tilastot
+    """
+    löydetyt_lapset = kadonneet_lapset_määrä(game_id)
+    print(f"""
+    PELI LOPETETTU
+    Löysit {löydetyt_lapset}/10 lasta.
+    Kiitos pelaamisesta!
+    Toivottavasti tulet taas pian takaisin!
+    Äitiapina toivottaa sinulle hyvää päivän jatkoa!
+    """)
+    yhteys.close()  # Suljetaan tietokantayhteys
+    exit()  # Lopetetaan ohjelma
+
 # Funktio, joka merkitsee tietyn maan käydyksi tietokannassa
 def merkitse_käydyksi(game_id, maa):
-        sql = f"insert into käydyt_maat (game_id, country_name, käyty) values ('{game_id}', '{maa}', 1)"
-        kursori = yhteys.cursor()
-        kursori.execute(sql)
-        yhteys.commit()
+    sql = f"insert into käydyt_maat (game_id, country_name, käyty) values ('{game_id}', '{maa}', 1)"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    yhteys.commit()
+
 
 # Funktio lentävä apina animaatiolle
 def lentävä_animaatio():
@@ -422,7 +452,7 @@ def lentävä_animaatio():
                            =@@#@@@%=           =%@@% -=@*
         """,
         """
-        
+
                                                    *@@@@@@@@@@%
                         :%@@@@@@@@@@@#            :%@@@@@@@@@@##
                        #@@@@@@@@@@@@@@@@+:        #@@@@@@@@@@@=@#
@@ -441,7 +471,7 @@ def lentävä_animaatio():
                                           %@#-   *@@@@@%%*:   =@@-  *%+
                                       :%@@:      %@@#+*-#@@#  #+
                           @@@=@@@@#@@@%=          =%@@% -=@*
-        
+
         """
     ]
 
@@ -456,6 +486,30 @@ def lentävä_animaatio():
         i += 1
     return
 
+
+# Funktio pelin lopettamiseen
+def lopeta_peli(game_id):
+    """
+    Lopettaa pelin ja näyttää tilastot
+    """
+    löydetyt_lapset = kadonneet_lapset_määrä(game_id)
+    print(f"""
+
+    =========================================
+    PELI LOPETETTU
+    =========================================
+
+    Löysit {löydetyt_lapset}/10 lasta.
+
+    Kiitos pelaamisesta!
+    Äitiapina toivottaa sinulle hyvää päivän jatkoa.
+
+    =========================================
+    """)
+    yhteys.close()  # Suljetaan tietokantayhteys
+    exit()  # Lopetetaan ohjelma
+
+
 # Pääpeli
 game_id = hae_game_id(nimimerkki)
 eu_maat = hae_eu_maat()
@@ -465,10 +519,21 @@ löydetyt_lapset = kadonneet_lapset_määrä(game_id)
 
 while löydetyt_lapset < 10:
     print("""
-    Mihin maahan haluaisit lentää? (Kirjoita maan nimi englanniksi. /help näyttää kaikki EU-maat.)
+    Mihin maahan haluaisit lentää? (Kirjoita maan nimi englanniksi. /help näyttää kaikki EU-maat. /lopeta lopettaa pelin.)
     """)
     maa = input("""
     Valitse maa: """).strip()
+
+    # Tarkista lopetuskomento
+    if maa.lower() == "/lopeta":
+        varmistus = input("""
+    Haluatko varmasti lopettaa pelin? (kyllä/ei): """).strip().lower()
+        if varmistus == "kyllä":
+            lopeta_peli(game_id)
+        else:
+            print("""
+    Jatketaan peliä!""")
+            continue
 
     if maa.lower() == "/help":
         help_komento(game_id)
@@ -485,7 +550,7 @@ while löydetyt_lapset < 10:
             if tulos[0] == 0:
                 lentävä_animaatio()
 
-                löytyi = tarkista_maa(game_id,maa)
+                löytyi = tarkista_maa(game_id, maa)
 
                 merkitse_käydyksi(game_id, maa)
 
@@ -504,7 +569,7 @@ while löydetyt_lapset < 10:
     if löydetyt_lapset == 10:
         print("""
     JIPPII!! Kaikki kadonneet poikaset on löydetty!
-    
+
     FUN FACT! EU-maiden välisen lennon päästöt ovat keskimäärin noin ... per matkustaja.
     Tässä pelissä ei kuitenkaan synny päästöjä, koska lentävä apina on satuhahmo.
     Hän liikkuu ympäristöystävällisesti mielikuvituksen siivin!
@@ -552,7 +617,7 @@ while löydetyt_lapset < 10:
                  +****=---------#*++++*#---------=*****.    .@@@@@@@@@:     .:=-*@@%=..     
                    :****+=+++=---*#**#*---=+++=+****:.	*@@@@@@@@%      .=:.      
                        ..=++++**++====++***+++=....		   ...........                      
-    
+
                 ,--. ,--.,--.,--.  ,--.                 
                 |  .'   /`--'`--',-'  '-. ,---.  ,---.  
                 |  .   ' ,--.,--.'-.  .-'| .-. |(  .-'  
@@ -576,7 +641,7 @@ while löydetyt_lapset < 10:
                  +****=---------#*++++*#---------=*****.    .@@@@@@@@@:     .:=-*@@%=..     
                    :****+=+++=---*#**#*---=+++=+****:.	*@@@@@@@@%      .=:.      
                        ..=++++**++====++***+++=....		   ...........                      
-    
+
                 ,--. ,--.,--.,--.  ,--.                 
                 |  .'   /`--'`--',-'  '-. ,---.  ,---.  
                 |  .   ' ,--.,--.'-.  .-'| .-. |(  .-'  

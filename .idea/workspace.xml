@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bbc6540a-79b5-4e2e-a4ee-f104d1142905" name="Changes" comment="muokkaus kohtaan ei ole EU-maa">
-      <change afterPath="$PROJECT_DIR$/Peli_testi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/PythonProject8.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonProject8.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="bbc6540a-79b5-4e2e-a4ee-f104d1142905" name="Changes" comment="Paranneltu uusi versio">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Peli.py" beforeDir="false" afterPath="$PROJECT_DIR$/Peli.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,11 +21,6 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="Hellun_branch" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -41,7 +32,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/lompattaja/Where_are_my_kids&quot;,
-    &quot;accountId&quot;: &quot;8c45400e-132a-4206-9e97-fc419c38af6a&quot;
+    &quot;accountId&quot;: &quot;bebdff13-bca8-40ff-90fa-01fd34e3b05b&quot;
   }
 }</component>
   <component name="ProblemsViewState">
@@ -55,33 +46,59 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.Hellun_branch2.executor": "Run",
-    "Python.Hellun_testi.executor": "Run",
-    "Python.Hellun_testi2.executor": "Run",
-    "Python.Peli.executor": "Run",
-    "Python.Test.executor": "Run",
-    "Python.itkevä_apina.executor": "Run",
-    "Python.lentävä_apina.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.Peli.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/nooam/PycharmProjects/Where_are_my_kids&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\nooam\PycharmProjects\Where_are_my_kids" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Peli" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="PythonProject8" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Peli.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-PY-252.23892.515" />
-        <option value="bundled-python-sdk-7e47963ff851-f0eec537fc84-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.23892.515" />
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-PY-252.25557.178" />
+        <option value="bundled-python-sdk-ce6832f46686-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.178" />
       </set>
     </attachedChunks>
   </component>
@@ -95,28 +112,7 @@
       <workItem from="1757675457087" duration="349000" />
       <workItem from="1758261778087" duration="1449000" />
       <workItem from="1758264011623" duration="593000" />
-      <workItem from="1758880105637" duration="3744000" />
-      <workItem from="1758948724266" duration="2312000" />
-      <workItem from="1758971908461" duration="1109000" />
-      <workItem from="1758981133812" duration="2188000" />
-      <workItem from="1758988736526" duration="3177000" />
-      <workItem from="1758993968028" duration="413000" />
-      <workItem from="1759054886164" duration="5687000" />
-      <workItem from="1759091663174" duration="4220000" />
-      <workItem from="1759125994042" duration="652000" />
-      <workItem from="1759135395579" duration="55000" />
-      <workItem from="1759137877630" duration="48000" />
-      <workItem from="1759143115907" duration="1389000" />
-      <workItem from="1759147638903" duration="51000" />
-      <workItem from="1759175455834" duration="3754000" />
-      <workItem from="1759311051970" duration="7984000" />
-      <workItem from="1759470874557" duration="185000" />
-      <workItem from="1759474092107" duration="6000" />
-      <workItem from="1759765404417" duration="15695000" />
-      <workItem from="1759828207888" duration="21140000" />
-      <workItem from="1759870697094" duration="2130000" />
-      <workItem from="1759916090759" duration="12000" />
-      <workItem from="1759917141330" duration="2637000" />
+      <workItem from="1758716536532" duration="4378000" />
     </task>
     <task id="LOCAL-00001" summary="Ensimmäinen versio">
       <option name="closed" value="true" />
@@ -197,105 +193,39 @@
       <option name="project" value="LOCAL" />
       <updated>1758538439700</updated>
     </task>
-    <task id="LOCAL−00011" summary="Tein muutoksia pelin tallentamiseen.">
+    <task id="LOCAL-00011" summary="Tein muutoksia pelin tallentamiseen.">
       <option name="closed" value="true" />
-      <created>1758882083059</created>
-      <option name="number" value="LOCAL−00011" />
-      <option name="presentableId" value="LOCAL−00011" />
-      <updated>1758882083059</updated>
+      <created>1758538896173</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1758538896173</updated>
     </task>
-    <task id="LOCAL−00012" summary="Ascii art lentävästä apinasta">
+    <task id="LOCAL-00012" summary="Täysin uusi versio Opus4.1 mallilla">
       <option name="closed" value="true" />
-      <created>1759311184105</created>
-      <option name="number" value="LOCAL−00012" />
-      <option name="presentableId" value="LOCAL−00012" />
-      <updated>1759311184105</updated>
+      <created>1758540670252</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1758540670252</updated>
     </task>
-    <task id="LOCAL−00013" summary="Ascii art vinkkaavasta apinasta">
+    <task id="LOCAL-00013" summary="Paranneltu uusi versio">
       <option name="closed" value="true" />
-      <created>1759311233539</created>
-      <option name="number" value="LOCAL−00013" />
-      <option name="presentableId" value="LOCAL−00013" />
-      <updated>1759311233539</updated>
+      <created>1758541496655</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1758541496655</updated>
     </task>
-    <task id="LOCAL−00014" summary="Peli siihen asti kunnes kysytään nimimerkki">
+    <task id="LOCAL-00014" summary="Paranneltu uusi versio">
       <option name="closed" value="true" />
-      <created>1759311314546</created>
-      <option name="number" value="LOCAL−00014" />
-      <option name="presentableId" value="LOCAL−00014" />
-      <updated>1759311314546</updated>
+      <created>1759128174410</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1759128174410</updated>
     </task>
-    <task id="LOCAL−00015" summary="muokkauksia ascii art vinkkaava apina">
-      <option name="closed" value="true" />
-      <created>1759313832779</created>
-      <option name="number" value="LOCAL−00015" />
-      <option name="presentableId" value="LOCAL−00015" />
-      <updated>1759313832779</updated>
-    </task>
-    <task id="LOCAL−00016" summary="muokkauksia ascii art itkevä apina">
-      <option name="closed" value="true" />
-      <created>1759313850914</created>
-      <option name="number" value="LOCAL−00016" />
-      <option name="presentableId" value="LOCAL−00016" />
-      <updated>1759313850914</updated>
-    </task>
-    <task id="LOCAL−00017" summary="muokkauksia ascii art lentävä apina funktioksi">
-      <option name="closed" value="true" />
-      <created>1759313872932</created>
-      <option name="number" value="LOCAL−00017" />
-      <option name="presentableId" value="LOCAL−00017" />
-      <updated>1759313872932</updated>
-    </task>
-    <task id="LOCAL−00018" summary="Muokkaus että nimimerkit tallennetaan pieniksi kirjaimiksi tietokantaan, mutta pelaaja näkee sen nimimerkin minkä itse syötti.">
-      <option name="closed" value="true" />
-      <created>1759778829749</created>
-      <option name="number" value="LOCAL−00018" />
-      <option name="presentableId" value="LOCAL−00018" />
-      <updated>1759778829749</updated>
-    </task>
-    <task id="LOCAL−00019" summary="Muokkasin nimeä">
-      <option name="closed" value="true" />
-      <created>1759789033513</created>
-      <option name="number" value="LOCAL−00019" />
-      <option name="presentableId" value="LOCAL−00019" />
-      <updated>1759789033513</updated>
-    </task>
-    <task id="LOCAL−00020" summary="Valmis peli">
-      <option name="closed" value="true" />
-      <created>1759860098360</created>
-      <option name="number" value="LOCAL−00020" />
-      <option name="presentableId" value="LOCAL−00020" />
-      <updated>1759860098361</updated>
-    </task>
-    <task id="LOCAL−00021" summary="Pikkusen muokkauksia pelin ulkonäköön (tekstit)">
-      <option name="closed" value="true" />
-      <created>1759866291476</created>
-      <option name="number" value="LOCAL−00021" />
-      <option name="presentableId" value="LOCAL−00021" />
-      <updated>1759866291476</updated>
-    </task>
-    <task id="LOCAL−00022" summary="Lisäsin loppuun huomautuksen liittyen kestävään kehitykseen mutta se on keskeneräinen">
-      <option name="closed" value="true" />
-      <created>1759873349288</created>
-      <option name="number" value="LOCAL−00022" />
-      <option name="presentableId" value="LOCAL−00022" />
-      <updated>1759873349288</updated>
-    </task>
-    <task id="LOCAL−00023" summary="r pois turha">
-      <option name="closed" value="true" />
-      <created>1759918627163</created>
-      <option name="number" value="LOCAL−00023" />
-      <option name="presentableId" value="LOCAL−00023" />
-      <updated>1759918627163</updated>
-    </task>
-    <task id="LOCAL−00024" summary="muokkaus kohtaan ei ole EU-maa">
-      <option name="closed" value="true" />
-      <created>1759919997013</created>
-      <option name="number" value="LOCAL−00024" />
-      <option name="presentableId" value="LOCAL−00024" />
-      <updated>1759919997013</updated>
-    </task>
-    <option name="localTasksCounter" value="25" />
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -310,20 +240,9 @@
     <MESSAGE value="Ensimmäinen toimiva versio!!" />
     <MESSAGE value="Toinen toimiva versio" />
     <MESSAGE value="Tein muutoksia pelin tallentamiseen." />
-    <MESSAGE value="Ascii art lentävästä apinasta" />
-    <MESSAGE value="Ascii art vinkkaavasta apinasta" />
-    <MESSAGE value="Peli siihen asti kunnes kysytään nimimerkki" />
-    <MESSAGE value="muokkauksia ascii art vinkkaava apina" />
-    <MESSAGE value="muokkauksia ascii art itkevä apina" />
-    <MESSAGE value="muokkauksia ascii art lentävä apina funktioksi" />
-    <MESSAGE value="Muokkaus että nimimerkit tallennetaan pieniksi kirjaimiksi tietokantaan, mutta pelaaja näkee sen nimimerkin minkä itse syötti." />
-    <MESSAGE value="Muokkasin nimeä" />
-    <MESSAGE value="Valmis peli" />
-    <MESSAGE value="Pikkusen muokkauksia pelin ulkonäköön (tekstit)" />
-    <MESSAGE value="Lisäsin loppuun huomautuksen liittyen kestävään kehitykseen mutta se on keskeneräinen" />
-    <MESSAGE value="r pois turha" />
-    <MESSAGE value="muokkaus kohtaan ei ole EU-maa" />
-    <option name="LAST_COMMIT_MESSAGE" value="muokkaus kohtaan ei ole EU-maa" />
+    <MESSAGE value="Täysin uusi versio Opus4.1 mallilla" />
+    <MESSAGE value="Paranneltu uusi versio" />
+    <option name="LAST_COMMIT_MESSAGE" value="Paranneltu uusi versio" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -336,14 +255,9 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Where_are_my_kids$itkevä_apina.coverage" NAME="itkevä_apina Coverage Results" MODIFIED="1758883600703" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Where_are_my_kids$Hellun_branch2.coverage" NAME="Hellun_branch2 Coverage Results" MODIFIED="1758972201886" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Where_are_my_kids$Peli.coverage" NAME="Peli Coverage Results" MODIFIED="1758868645192" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PythonProject8$Peli.coverage" NAME="Peli Coverage Results" MODIFIED="1757675829049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Where_are_my_kids$Hellun_testi2.coverage" NAME="Hellun_testi2 Coverage Results" MODIFIED="1759092402549" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Where_are_my_kids$lentävä_apina.coverage" NAME="lentävä_apina Coverage Results" MODIFIED="1759176226236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Where_are_my_kids$Test.coverage" NAME="Test Coverage Results" MODIFIED="1758982958548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Where_are_my_kids$Test.coverage" NAME="Test Coverage Results" MODIFIED="1758540463351" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Where_are_my_kids$Testit.coverage" NAME="Testit Coverage Results" MODIFIED="1758276422935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Where_are_my_kids$Hellun_testi.coverage" NAME="Hellun_testi Coverage Results" MODIFIED="1759840432056" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Where_are_my_kids$Peli.coverage" NAME="Peli Coverage Results" MODIFIED="1758716562241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonProject8$Peli.coverage" NAME="Peli Coverage Results" MODIFIED="1757675829049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
