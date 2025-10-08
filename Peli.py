@@ -29,7 +29,7 @@ if __name__ == "__main__":
          port= 3306,
          database='flight_game',
          user='root',
-         password='nooanooa',
+         password='salasana',
          autocommit=True,
          )
 
@@ -50,4 +50,3 @@ Auttaisitko häntä pelaaja?""")
 input("Paina enter jaktaaksesi: ")
 crying_ape("")
 clear()
-
